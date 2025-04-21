@@ -23,6 +23,9 @@
 hs_err_pid*
 replay_pid*
 
+#other files
+.DS_Store
+
 #npm build and gradle stuff
 /node_modules
 /build
