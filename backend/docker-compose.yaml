@@ -1,0 +1,16 @@
+services:
+  postgres-db:
+    container_name: bridge_diary
+    image: postgres # use latest official postgres version
+    restart: always
+    environment:
+      POSTGRES_USER: bridge_diary
+      POSTGRES_PASSWORD: bridge_diary42
+      POSTGRES_DB: bridge_diary_db
+      POSTGRES_HOST_AUTH_METHOD: password
+    ports:
+      - "5440:5432"
+
+volumes:
+  postgresql_data:
+    driver: local
