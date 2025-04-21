@@ -1,14 +1,14 @@
 import './App.css'
+import DiaryInputForm from "./components/DiaryInputForm.tsx";
 
 function App() {
 
-  return (
-    <>
-        <h1 className="text-3xl font-bold underline">
-            Hello world!
-        </h1>
-    </>
-  )
+    return (
+        <>
+            <DiaryInputForm>
+            </DiaryInputForm>
+        </>
+    )
 }
 
 export default App
