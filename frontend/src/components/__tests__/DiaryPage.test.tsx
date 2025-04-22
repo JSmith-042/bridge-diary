@@ -10,7 +10,9 @@ describe('Diary Page', ()=>
         const welcomeHeader = screen.getByRole("heading", {name:"Welcome to your personal diary"})
 
         expect(welcomeHeader).toBeVisible();
+    });
 
+    it('should display diary entry dates', () => {
 
     });
 })
