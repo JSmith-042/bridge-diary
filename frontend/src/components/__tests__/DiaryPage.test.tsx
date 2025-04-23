@@ -9,6 +9,8 @@ describe('Diary Page', ()=>
     const doRender = async () => await waitFor(()=>{render(<DiaryPage/>)})
 
     it('should display welcome header', async () => {
+        vi.spyOn(diaryService, "getListOfEntries").mockResolvedValueOnce([])
+
         await doRender();
 
         const welcomeHeader = screen.getByRole("heading", {name:"Welcome to your personal diary"})
@@ -25,11 +27,13 @@ describe('Diary Page', ()=>
         const getEntries = vi.spyOn(diaryService, "getListOfEntries").mockResolvedValueOnce(testEntries)
         await doRender();
 
-
         const dateList = await screen.findAllByRole("listitem");
 
-
         expect(getEntries).toHaveBeenCalledOnce();
-
+        expect(dateList.length).toBe(3);
     });
+
+
+
+
 })
