@@ -5,6 +5,7 @@ import jsbrg.backend.repository.DiaryEntryRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DiaryEntryService {
@@ -18,5 +19,14 @@ public class DiaryEntryService {
 
     public List<DiaryEntryEntity> findAllEntries() {
         return diaryEntryRepo.findAll();
+    }
+
+    public DiaryEntryEntity findEntryById(Long id) {
+        Optional<DiaryEntryEntity> entity = diaryEntryRepo.findById(id);
+        return entity.orElse(null);
+    }
+
+    public DiaryEntryEntity save(DiaryEntryEntity testEntityNoId) {
+        return diaryEntryRepo.save(testEntityNoId);
     }
 }
