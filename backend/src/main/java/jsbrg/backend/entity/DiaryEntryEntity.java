@@ -24,6 +24,15 @@ public class DiaryEntryEntity {
     public DiaryEntryEntity() {
     }
 
+    public DiaryEntryEntity(String title, String text, Instant date, Integer rating, Double awesomeness) {
+        this.id = null;
+        this.title = title;
+        this.text = text;
+        this.date = date;
+        this.rating = rating;
+        this.awesomeness = awesomeness;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
