@@ -22,8 +22,7 @@ public class DiaryEntryService {
     }
 
     public DiaryEntryEntity findEntryById(Long id) {
-        Optional<DiaryEntryEntity> entity = diaryEntryRepo.findById(id);
-        return entity.orElse(null);
+        return diaryEntryRepo.findById(id).orElse(null);
     }
 
     public DiaryEntryEntity save(DiaryEntryEntity testEntityNoId) {
