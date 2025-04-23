@@ -29,4 +29,8 @@ public class DiaryEntryService {
     public DiaryEntryEntity save(DiaryEntryEntity testEntityNoId) {
         return diaryEntryRepo.save(testEntityNoId);
     }
+
+    public Boolean deleteEntityById(Long id) {
+        return diaryEntryRepo.deleteDiaryEntryEntityById(id) > 0;
+    }
 }

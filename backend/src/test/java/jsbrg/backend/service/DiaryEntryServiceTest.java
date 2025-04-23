@@ -75,5 +75,11 @@ public class DiaryEntryServiceTest {
         assertThat(actualRequest).isEqualTo(testEntity);
     }
 
-
+    @Test
+    void shouldDeleteEntry() {
+        when(diaryEntryRepo.deleteDiaryEntryEntityById(2L)).thenReturn(1L);
+        boolean isDeleted = diaryEntryService.deleteEntityById(2L);
+        verify(diaryEntryRepo, times(1)).deleteDiaryEntryEntityById(2L);
+        assertThat(isDeleted).isTrue();
+    }
 }
