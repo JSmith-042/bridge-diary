@@ -5,6 +5,7 @@ import jsbrg.backend.entity.DiaryEntryEntity;
 import jsbrg.backend.repository.DiaryEntryRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -81,5 +82,43 @@ public class DiaryEntryServiceTest {
         boolean isDeleted = diaryEntryService.deleteEntityById(2L);
         verify(diaryEntryRepo, times(1)).deleteDiaryEntryEntityById(2L);
         assertThat(isDeleted).isTrue();
+    }
+
+    @Test
+    void shouldUpdateEntry() {
+        Long testId = 1L;
+
+        DiaryEntryEntity existingEntry = testEntity;
+        existingEntry.setId(testId);
+
+        DiaryEntryEntity updatedEntry = testEntity2;
+        updatedEntry.setId(testId);
+
+        when(diaryEntryRepo.findById(testId)).thenReturn(Optional.of(existingEntry));
+        when(diaryEntryRepo.save(any(DiaryEntryEntity.class))).thenReturn(updatedEntry);
+
+        DiaryEntryEntity actualRequest = diaryEntryService.updateEntityById(testId, updatedEntry);
+
+        verify(diaryEntryRepo, times(1)).findById(testId);
+        verify(diaryEntryRepo, times(1)).save(any(DiaryEntryEntity.class));
+
+        assertThat(actualRequest).isEqualTo(updatedEntry);
+    }
+
+    @Test
+    void shouldNotUpdateEntry() {
+        Long testId = 0L;
+
+        DiaryEntryEntity updatedEntry = testEntity2;
+        updatedEntry.setId(testId);
+
+        when(diaryEntryRepo.findById(testId)).thenReturn(Optional.empty());
+
+        DiaryEntryEntity actualRequest = diaryEntryService.updateEntityById(testId, updatedEntry);
+
+        verify(diaryEntryRepo, times(1)).findById(testId);
+
+        assertThat(actualRequest).isEqualTo(null);
+
     }
 }
