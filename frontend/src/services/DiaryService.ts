@@ -3,7 +3,7 @@ import axios from "axios";
 export const getListOfEntries  = () => {
     const options = {
         method: 'GET',
-        url: `http://localhost:8080/diary/getAll`,
+        url: `/api/entries`,
         headers: {
             accept: 'application/json',
         }

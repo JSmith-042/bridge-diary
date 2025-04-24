@@ -16,8 +16,7 @@ const DiaryPage = () => {
         })
     }, []);
 
-    const handleDateSelect = (e:MouseEvent)=>
-    {
+    const handleDateSelect = (e) => {
         const liElement = e.target as HTMLLIElement
 
         if (liElement.ariaLabel != null)
@@ -31,11 +30,13 @@ const DiaryPage = () => {
                 <div className="col-span-1 row-span-full h-screen">
                     <DateDisplaySelector
                         dateSelectHandler={handleDateSelect}
-                        dates={entryList.filter((entry: DiaryEntry) => (entry.date.toDateString() != new Date("0000-00-00").toDateString())).map((entry: DiaryEntry) => (entry.date))}></DateDisplaySelector>
+                        dates={entryList.filter((entry: DiaryEntry) => (
+                            entry.date.toString() != "Invalid Date")).map((entry: DiaryEntry) => (entry.date))}></DateDisplaySelector>
                 </div>
                 <div className="col-span-2 row-span-full">
-                    <DiaryEntryDisplay title={selectedEntry.date.toDateString() != new Date("0000-00-00").toDateString() ? selectedEntry.title : ""}
-                                       text={selectedEntry.date.toDateString() != new Date("0000-00-00").toDateString() ? selectedEntry.text : ""}></DiaryEntryDisplay>
+                    <DiaryEntryDisplay
+                        title={selectedEntry.date.toString() != "Invalid Date" ? selectedEntry.title : ""}
+                        text={selectedEntry.date.toString() != "Invalid Date" ? selectedEntry.text : ""}></DiaryEntryDisplay>
                 </div>
             </div>
         </>
