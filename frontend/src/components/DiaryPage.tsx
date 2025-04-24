@@ -3,6 +3,7 @@ import DiaryEntryDisplay from "./DiaryEntryDisplay";
 import {useEffect, useState} from "react";
 import {getListOfEntries} from "../services/DiaryService";
 import {DiaryEntry} from "../types/DiaryEntry";
+import StarRating from "./StarRating";
 
 
 const DiaryPage = () => {
@@ -25,6 +26,8 @@ const DiaryPage = () => {
 
     return (
         <>
+
+            <StarRating rating={3}></StarRating>
             <div className="text-center"><h1>Welcome to your personal diary</h1></div>
             <div className={"grid grid-flow-col gap-4"}>
                 <div className="col-span-1 row-span-full h-screen">
