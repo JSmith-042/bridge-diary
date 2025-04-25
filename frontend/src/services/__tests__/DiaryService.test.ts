@@ -1,6 +1,6 @@
 import {setupServer} from "msw/node";
 import {http, HttpResponse} from "msw";
-import {getEntry, getListOfEntries} from "../DiaryService";
+import {createEntry, getEntry, getListOfEntries} from "../DiaryService";
 import axios from "axios";
 import {it, describe, expect, beforeAll, afterAll, afterEach} from "vitest";
 import {DiaryEntry} from "../../types/DiaryEntry";
@@ -16,9 +16,9 @@ describe('DiaryService', () => {
 
     it('should send a get request to fetch existing diary entries', async () => {
         const expected: DiaryEntry[] = [
-            {id: 1, title: "title 1", text: 'some entry', date: new Date("2025-01-01")},
-            {id: 2, title: "title 2", text: 'another entry', date: new Date("2025-01-02")},
-            {id: 3, title: "title 3", text: 'and the third entry', date: new Date("2025-01-03")},
+            {id: 1, title: "title 1", text: 'some entry', date: new Date("2025-01-01"), rating: 1, awesomeness: 0.22},
+            {id: 2, title: "title 2", text: 'another entry', date: new Date("2025-01-02"), rating: 2, awesomeness: 0.22},
+            {id: 3, title: "title 3", text: 'and the third entry', date: new Date("2025-01-03"), rating: 3, awesomeness: 0.22},
         ];
 
         server.use(http.get('http://localhost:8080/api/entries', () =>
@@ -29,7 +29,7 @@ describe('DiaryService', () => {
     });
 
     it('should send a get request to fetch existing diary entry', async () => {
-        const expected: DiaryEntry = {id: 1, title: "title 1", text: 'some entry', date: new Date("2025-01-01")}
+        const expected: DiaryEntry = {id: 1, title: "title 1", text: 'some entry', date: new Date("2025-01-01"), rating: 1, awesomeness: 0.22}
 
         server.use(http.get(`http://localhost:8080/api/entry/${expected.id}`, () =>
             HttpResponse.json(expected, {status: 200})
@@ -39,10 +39,13 @@ describe('DiaryService', () => {
     });
 
     it('should send a post request to add new diary entry', async () => {
-        const expected:DiaryEntry = {id: 3, title: "title 3", text: 'and the third entry', date: new Date("2025-01-03")};
+        const expected:DiaryEntry = {id: 3, title: "title 3", text: 'and the third entry', date: new Date("2025-01-03"), rating: 1, awesomeness: 0.22};
+        const newEntry:DiaryEntry = {id: null, title: "title 3", text: 'and the third entry', date: new Date("2025-01-03"), rating: 1, awesomeness: 0.22};
 
         server.use(http.post(`http://localhost:8080/api/entry`, () =>
             HttpResponse.json(expected, {status: 200})
         ))
+
+        expect(await createEntry(newEntry)).toStrictEqual(JSON.parse(JSON.stringify(expected)));
     });
 });

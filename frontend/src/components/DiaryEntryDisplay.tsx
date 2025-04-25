@@ -3,13 +3,14 @@ import StarRating from "./StarRating";
 type DiaryEntryProps =
     {
         title: string,
-        text: string
+        text: string,
+        rating: number
     }
 
-const DiaryEntryDisplay = ({title, text}:DiaryEntryProps) => {
+const DiaryEntryDisplay = ({title, text, rating}:DiaryEntryProps) => {
     return (
         <div>
-            <StarRating rating={3}></StarRating>
+            <StarRating rating={rating}></StarRating>
             <h1>{title}</h1>
             <p>{text}</p>
         </div>
