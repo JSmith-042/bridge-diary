@@ -1,13 +1,13 @@
 import {setupServer} from "msw/node";
 import {http, HttpResponse} from "msw";
-import {getListOfEntries} from "../DiaryService";
+import {getEntry, getListOfEntries} from "../DiaryService";
 import axios from "axios";
 import {it, describe, expect, beforeAll, afterAll, afterEach} from "vitest";
 import {DiaryEntry} from "../../types/DiaryEntry";
 
 describe('DiaryService', () => {
 
-    axios.defaults.baseURL = "http://localhost:8080/diary"
+    axios.defaults.baseURL = "http://localhost:8080/"
 
     const server = setupServer()
     beforeAll(() => server.listen({onUnhandledRequest: 'error'}))
@@ -21,10 +21,28 @@ describe('DiaryService', () => {
             {id: 3, title: "title 3", text: 'and the third entry', date: new Date("2025-01-03")},
         ];
 
-        server.use(http.get('http://localhost:8080/diary/getAll', () =>
+        server.use(http.get('http://localhost:8080/api/entries', () =>
             HttpResponse.json(expected, {status: 200})
         ))
 
         expect(await getListOfEntries()).toStrictEqual(JSON.parse(JSON.stringify(expected)));
+    });
+
+    it('should send a get request to fetch existing diary entry', async () => {
+        const expected: DiaryEntry = {id: 1, title: "title 1", text: 'some entry', date: new Date("2025-01-01")}
+
+        server.use(http.get(`http://localhost:8080/api/entry/${expected.id}`, () =>
+            HttpResponse.json(expected, {status: 200})
+        ))
+
+        expect(await getEntry(1)).toStrictEqual(JSON.parse(JSON.stringify(expected)));
+    });
+
+    it('should send a post request to add new diary entry', async () => {
+        const expected:DiaryEntry = {id: 3, title: "title 3", text: 'and the third entry', date: new Date("2025-01-03")};
+
+        server.use(http.post(`http://localhost:8080/api/entry`, () =>
+            HttpResponse.json(expected, {status: 200})
+        ))
     });
 });
